@@ -1,7 +1,6 @@
 {
-  "name": "typeorm",
-  "private": true,
-  "version": "0.1.13",
+  "name": "@ftr/typeorm",
+  "version": "0.0.3",
   "description": "Data-Mapper ORM for TypeScript, ES7, ES6, ES5. Supports MySQL, PostgreSQL, MariaDB, SQLite, MS SQL Server, Oracle, WebSQL, MongoDB databases.",
   "license": "MIT",
   "readmeFilename": "README.md",
@@ -94,7 +93,8 @@
     "test": "gulp ci-tests",
     "compile": "tsc",
     "setup:config": "gulp createTravisOrmConfig",
-    "package": "gulp package"
+    "package": "gulp package",
+    "publish": "npm publish build/package"
   },
   "bin": {
     "typeorm": "./cli.js"
