@@ -10,6 +10,7 @@ import {MongoDriver} from "../driver/mongodb/MongoDriver";
 import {ColumnMetadata} from "../metadata/ColumnMetadata";
 import {EmbeddedMetadata} from "../metadata/EmbeddedMetadata";
 import {Broadcaster} from "../subscriber/Broadcaster";
+import { OrphanedRowAction } from "../decorator/options/OrphanedRowAction";
 
 /**
  * Executes all database operations (inserts, updated, deletes) that must be executed
@@ -795,16 +796,25 @@ export class SubjectOperationExecutor {
      */
     private async updateRelations(subject: Subject) {
         const values: ObjectLiteral = {};
+
+        const idMap = subject.metadata.getDatabaseEntityIdMap(subject.databaseEntity);
+        if (!idMap)
+            throw new Error(`Internal error. Cannot get id of the updating entity.`);
+
+        const rowOrphaned = subject.relationUpdates.some(
+            setRelation => !setRelation.value && setRelation.relation.orphanedRowAction === OrphanedRowAction.Delete
+        );
+
+        if (rowOrphaned) {
+            return this.queryRunner.delete(subject.metadata.tablePath, idMap);
+        }
+
         subject.relationUpdates.forEach(setRelation => {
             setRelation.relation.joinColumns.forEach(joinColumn => {
                 const value = setRelation.value ? setRelation.value[joinColumn.referencedColumn!.propertyName] : null;
                 values[joinColumn.databaseName] = value; // todo: || fromInsertedSubjects ??
             });
         });
-
-        const idMap = subject.metadata.getDatabaseEntityIdMap(subject.databaseEntity);
-        if (!idMap)
-            throw new Error(`Internal error. Cannot get id of the updating entity.`);
 
         return this.queryRunner.update(subject.metadata.tablePath, values, idMap);
     }
