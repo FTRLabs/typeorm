@@ -566,7 +566,7 @@ export class MysqlDriver implements Driver {
      */
     private prepareDbConnection(connection: any): any {
         const { logger } = this.connection;
-        connection.on("error", (error: any) => logger.log("warn", logger.log("warn", `MySQL connection raised an error. ${error}`)));
+        connection.on("error", (error: any) => logger.log("warn", `MySQL connection raised an error. ${error}`));
         return connection;
     }
 
