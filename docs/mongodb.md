@@ -259,7 +259,7 @@ Drops all indexes from the collection.
 
 #### `findOneAndUpdate`
 
-Find a document and delete it in one atomic operation, requires a write lock for the duration of the operation.
+Find a document and update it in one atomic operation, requires a write lock for the duration of the operation.
 
 #### `geoHaystackSearch`
 
@@ -335,9 +335,9 @@ Reindex all indexes on the collection Warning: reIndex is a blocking operation (
 
 #### `updateMany`
 
-Reindex all indexes on the collection Warning: reIndex is a blocking operation (indexes are rebuilt in the foreground) and will be slow for large collections.
+Updates multiple documents within the collection based on the filter.
 
 #### `updateOne`
 
-Replace a document on MongoDB.
+Updates a single document within the collection based on the filter.
 
