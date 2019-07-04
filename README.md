@@ -1,3 +1,19 @@
+# FTR README
+
+## Publishing
+
+To publish the project, compile and package the project first. This can be achieved by the command:
+
+`npm run compile && npm run package`
+
+Once done, follow FTR's [Working with npm packages in feature branches][npm-doc] guide to create a feature branch then test it with dependent projects such as `ftr-beast`.
+
+When ready to publish, run:
+
+`npm publish`
+
+# Original README
+
 <div align="center">
   <a href="https://typeorm.io/">
     <img src="https://github.com/typeorm/typeorm/raw/master/resources/logo_big.png" width="492" height="228">
