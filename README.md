@@ -16,7 +16,7 @@ To publish the project, compile and package the project first. This can be achie
 
 When ready to publish, run:
 
-`npm publish`
+`npm publish build/package`
 
 [npm-doc]: https://fortherecord.atlassian.net/wiki/spaces/FPX/pages/150470657/Working+with+npm+packages+in+feature+branches
 
