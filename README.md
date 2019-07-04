@@ -2,15 +2,17 @@
 
 ## Publishing
 
+Prior to publication, follow FTR's [Working with npm packages in feature branches][npm-doc] guide to create a feature branch then test it with dependent projects such as `ftr-beast`.
+
 To publish the project, compile and package the project first. This can be achieved by the command:
 
 `npm run compile && npm run package`
 
-Once done, follow FTR's [Working with npm packages in feature branches][npm-doc] guide to create a feature branch then test it with dependent projects such as `ftr-beast`.
-
 When ready to publish, run:
 
 `npm publish`
+
+[npm-doc]: https://fortherecord.atlassian.net/wiki/spaces/FPX/pages/150470657/Working+with+npm+packages+in+feature+branches
 
 # Original README
 
