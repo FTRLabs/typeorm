@@ -1,12 +1,18 @@
 # FTR README
 
+## Development and testing
+
+Please see the [developer guide](DEVELOPER.md) if you are interested.
+
+At the time of writing, it's too much work for a simple fix.
+
 ## Publishing
 
 Prior to publication, follow FTR's [Working with npm packages in feature branches][npm-doc] guide to create a feature branch then test it with dependent projects such as `ftr-beast`.
 
 To publish the project, compile and package the project first. This can be achieved by the command:
 
-`npm run compile && npm run package`
+`npm run package`
 
 When ready to publish, run:
 
