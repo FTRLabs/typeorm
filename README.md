@@ -10,13 +10,27 @@ At the time of writing, it's too much work for a simple fix.
 
 Prior to publication, follow FTR's [Working with npm packages in feature branches][npm-doc] guide to create a feature branch then test it with dependent projects such as `ftr-beast`.
 
+Summary is below:
+
+### Pre-release
+
+Run:
+
+```
+npm version prerelease
+npm run package
+npm publish build/package
+```
+
+### Actual release
+
 To publish the project, compile and package the project first. This can be achieved by the command:
 
-`npm run package`
-
-When ready to publish, run:
-
-`npm publish build/package`
+```
+npm version patch # Replace patch with major/minor as appropriate
+npm run package
+npm publish build/package
+```
 
 [npm-doc]: https://fortherecord.atlassian.net/wiki/spaces/FPX/pages/150470657/Working+with+npm+packages+in+feature+branches
 
