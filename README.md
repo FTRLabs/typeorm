@@ -19,7 +19,7 @@ Run:
 ```
 npm version prerelease
 npm run package
-npm publish build/package
+npm publish --tag FTRX-5000 build/package # Replace 5000 with your issue number
 ```
 
 ### Actual release
