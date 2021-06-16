@@ -19,6 +19,7 @@ Run:
 ```
 npm version prerelease
 npm run package
+cd build/package
 npm publish --tag FTRX-5000 build/package # Replace 5000 with your issue number
 ```
 
@@ -29,6 +30,7 @@ To publish the project, compile and package the project first. This can be achie
 ```
 npm version patch # Replace patch with major/minor as appropriate
 npm run package
+cd build/package
 npm publish build/package
 ```
 
