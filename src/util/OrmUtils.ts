@@ -82,7 +82,8 @@ export class OrmUtils {
                 && !(value instanceof Set)
                 && !(value instanceof Date)
                 && !(value instanceof Buffer)
-                && !(value instanceof RegExp)) {
+                && !(value instanceof RegExp)
+                && !(value.constructor.name === "ZoneOffset")) {
                     if (!target[key])
                         Object.assign(target, { [key]: Object.create(Object.getPrototypeOf(value)) });
                     this.mergeDeep(target[key], value);
