@@ -58,42 +58,64 @@ export class OrmUtils {
         }, [] as T[]);
     }
 
-    static isObject(item: any) {
-        return (item && typeof item === "object" && !Array.isArray(item));
+    // Checks if it's an object made by Object.create(null), {} or new Object()
+    private static isPlainObject(item: any) {
+        if (item === null || item === undefined) {
+            return false;
+        }
+
+        return !item.constructor || item.constructor === Object;
+    }
+
+    private static mergeKey(target: any, key: string, value: any, memo: Map<any, any>) {
+        // Have we seen this before?  Prevent infinite recursion.
+        if (memo.has(value)) {
+            Object.assign(target, { [key]: memo.get(value) });
+            return;
+        }
+
+        let newValue = value;
+
+        if (this.isPlainObject(value)) {
+            const newValue = Object.create(Object.getPrototypeOf(value));
+
+            if (!target[key]) {
+                Object.assign(target, { [key]: newValue });
+            }
+
+            memo.set(value, newValue);
+            this.merge(target[key], value);
+            memo.delete(value);
+        }
+
+        Object.assign(target, { [key]: newValue });
+    }
+
+    private static merge(target: any, source: any, memo: Map<any, any> = new Map()): any {
+        let keys = [];
+
+        if (this.isPlainObject(target) && this.isPlainObject(source)) {
+            keys.push(...Object.keys(source));
+        }
+
+        for (const key of keys) {
+            this.mergeKey(target, key, source[key], memo);
+        }
     }
 
     /**
      * Deep Object.assign.
-     *
-     * @see http://stackoverflow.com/a/34749873
      */
     static mergeDeep(target: any, ...sources: any[]): any {
-        if (!sources.length) return target;
-        const source = sources.shift();
-
-        if (this.isObject(target) && this.isObject(source)) {
-            for (const key in source) {
-                const value = source[key];
-                if (key === "__proto__" || value instanceof Promise)
-                    continue;
-
-                if (this.isObject(value)
-                && !(value instanceof Map)
-                && !(value instanceof Set)
-                && !(value instanceof Date)
-                && !(value instanceof Buffer)
-                && !(value instanceof RegExp)
-                && !(value.constructor.name === "ZoneOffset")) {
-                    if (!target[key])
-                        Object.assign(target, { [key]: Object.create(Object.getPrototypeOf(value)) });
-                    this.mergeDeep(target[key], value);
-                } else {
-                    Object.assign(target, { [key]: value });
-                }
-            }
+        if (!sources.length) {
+            return target;
         }
 
-        return this.mergeDeep(target, ...sources);
+        for (const source of sources) {
+            OrmUtils.merge(target, source);
+        }
+
+        return target;
     }
 
     /**
